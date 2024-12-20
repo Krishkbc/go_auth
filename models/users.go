@@ -2,11 +2,11 @@ package models
 
 type User struct {
 	ID       int    `"json":"id"`
-	username string `"json":"username"`
-	password string `"json":"password"`
+	Username string `"json":"username"`
+	Password string `"json":"password"`
 }
 
 type Crendential struct {
-	username string `"json":"username"`
-	password string `"json":"password"`
+	Username string `"json":"username"`
+	Password string `"json":"password"`
 }

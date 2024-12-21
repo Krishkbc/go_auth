@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"database/sql"
 	"errors"
 	"go-auth/models"
 )
@@ -19,4 +20,10 @@ func CreateUser(user *models.User) error {
 
 func GetUserByUsername(username string) *models.User {
 	return nil
+}
+
+func SaveUser(db *sql.DB, user *models.User) error {
+	query := `INSERT INTO users (username, password) VALUES ($1, $2)`
+	_, err := db.Exec(query, user.Username, user.Password)
+	return err
 }

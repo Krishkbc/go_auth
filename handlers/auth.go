@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"go-auth/models"
 	"go-auth/services"
+	"log"
 	"net/http"
 )
 
@@ -21,16 +22,19 @@ func Register(w http.ResponseWriter, r *http.Request) {
 
 	var user models.User
 	if err := json.NewDecoder(r.Body).Decode(&user); err != nil {
+		log.Println("Error decoding JSON:", err) // Log error
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
+
+	log.Printf("Decoded user: %+v\n", user) // Log decoded user data
 
 	if err := services.RegisterUser(&user); err != nil {
-		http.Error(w, err.Error(), http.StatusBadRequest)
+		log.Println("Error registering user:", err) // Log error
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
 	}
 
-	// Respond with a success message
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
 	response := Response{
